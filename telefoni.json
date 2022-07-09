@@ -1,0 +1,82 @@
+[
+    {
+        "kratkoime":"samsung",
+        "ime":"Samsung J3 2017",
+        "punarecenzija":"https://www.gsmarena.com/samsung_galaxy_j3_(2017)-8438.php",
+        "recenzija":"https://www.youtube.com/embed/rMX7cjh8mR0",
+        "slika":"samsung.jpg",
+        "specs":{
+            "cena":"110€",
+            "kamera":"13MP",
+            "mreza":"LTE",
+            "datumobjave":"Jun 2017",
+            "ekran":"PLS touchscreen",
+            "os":"Android 9",
+            "cpu":"Cortex A53",
+            "memorija":"16GB/2GB",
+            "baterija":"Li-Ion 2400 mAh",
+            "boje":[
+                "Bela",
+                "Crna",
+                "Zlatna",
+                "Plava"
+            ]
+        },
+        "komentari":[
+			
+        ]
+    },
+    {
+        "kratkoime":"iphone",
+        "ime":"iPhone 4",
+        "punarecenzija":"https://www.gsmarena.com/apple_iphone_4-3275.php",
+        "recenzija":"https://www.youtube.com/embed/-3MEnM2XTiE",
+        "slika":"iphone.jpg",
+        "specs":{
+            "cena":"200€",
+            "kamera":"5MP",
+            "mreza":"3G",
+            "datumobjave":"Jun 2010",
+            "ekran":"IPS LCD touchscreen",
+            "os":"iOS 7",
+            "cpu":"Cortex A8",
+            "memorija":"8/16/32GB flash/512MB RAM",
+            "baterija":"Li-Po 1420 mAh",
+            "boje":[
+                "Bela",
+                "Crna"
+            ]
+        },
+        "komentari":[
+            
+        ]
+    },
+    {
+        "kratkoime":"nokia",
+        "ime":"Nokia N73",
+        "punarecenzija":"https://www.gsmarena.com/nokia_n73-1550.php",
+        "recenzija":"https://www.youtube.com/embed/7o2tHy1jmhQ",
+        "slika":"nokia.jpg",
+        "specs":{
+            "cena":"100€",
+            "kamera":"3.15MP",
+            "mreza":"GSM",
+            "datumobjave":"April 2006",
+            "ekran":"TFT",
+            "os":"Symbian OS 9.1",
+            "cpu":"220MHz Dual ARM 9",
+            "memorija":"42MB flash/64MB RAM",
+            "baterija":"Li-Ion 1100 mAh",
+            "boje":[
+                "Siva",
+                "Ljubicasta",
+                "Bela",
+                "Crvena",
+                "Crna"
+            ]
+        },
+        "komentari":[
+            
+        ]
+    }
+]

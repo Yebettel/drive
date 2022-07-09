@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="jquery-3.5.1.js"></script>
+	<script src="javascript.js"></script>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Rectel</a>
+			</div>
+			<ul class="nav navbar-nav" id="navbarList">
+			</ul>
+		</div>
+	</nav>
+
+	<img src="logo.jpg" class="img-responsive logo" alt="RECTEL logo" />
+	<h1>Rectel recenzije telefona</h1>
+	<p><a href="index.html">Nazad na pocetnu stranu</a></p>
+
+	<hr />
+
+	<h2 id="naslov"></h2>
+	<p id="dodatnaRecenzija"></p>
+	<br />
+	<div id="slika"></div>
+	<br />
+	<div class="embed-responsive embed-responsive-16by9" id="video">
+	</div>
+
+	<p id="prosecnaOcena">Prosecna ocena: </p>
+	<h3>Specifikacije</h3>
+	<table id="specifikacije" class="table table-striped table-bordered table-hover">
+	</table>
+
+	<hr />
+
+	<h3>Ocenite ovaj telefon</h3>
+	<br />
+
+	<form id="komentarisi">
+		<div class="form-check">
+			<label class="form-check-label">Ocena:</label>
+			<input class="form-check-input" type="radio" name="ocena" id="jedan" value="1" />
+			<label class="form-check-label" for="jedan">1</label>
+			<input class="form-check-input" type="radio" name="ocena" id="dva" value="2" />
+			<label class="form-check-label" for="dva">2</label>
+			<input class="form-check-input" type="radio" name="ocena" id="tri" value="3" />
+			<label class="form-check-label" for="tri">3</label>
+			<input class="form-check-input" type="radio" name="ocena" id="cetiri" value="4" />
+			<label class="form-check-label" for="cetiri">4</label>
+			<input class="form-check-input" type="radio" name="ocena" id="pet" value="5" />
+			<label class="form-check-label" for="pet">5</label>
+		</div>
+		<div class="form-group">
+			<input type="nickname" class="form-control" id="nickname" placeholder="Nadimak">
+		</div>
+		<div class="form-group">
+			<textarea class="form-control" id="comment" rows="6" placeholder="Komentar..."></textarea>
+		</div>
+		<button type="submit" id="submitkom" class="btn btn-primary off5p">Posalji</button>
+	</form>
+
+	<hr />
+
+	<h3 id="najava"></h3>
+	<div id="komentari"></div>
+
+	<hr />
+
+	<p><a href="index.html">Nazad na pocetnu stranu</a></p>
+
+</body>

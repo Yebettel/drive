@@ -1,0 +1,54 @@
+body {
+  background-color: powderblue;
+}
+
+h1, h2 {
+	text-align: center;
+	color: rgb(29, 140, 214);
+}
+
+h3, h4, h5, h6 {
+	margin-left: 30%;
+	color: blue;
+}
+
+p {
+	text-align: center;
+}
+
+.phone {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border: 2px solid black;
+}
+
+.logo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.comment {
+	text-align: left;
+	margin-left: 10%;
+	margin-right: 15%;
+	
+}
+
+.reply {
+	text-align: left;
+	margin-left: 15%;
+	margin-right: 10%;
+}
+
+.form-group, .form-check, .off5p {
+	margin-left: 5%;
+	margin-right: 20%;
+}
+
+.embed-responsive {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
