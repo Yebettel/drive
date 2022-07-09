@@ -1,106 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-typedef struct node{
-    int dan;
-    int mesec;
-    int godina;
-    int cena;
-    char barkod[13];
-    struct node* next;
-} node;
 
-node* create(int dan,int mesec,int godina,int cena,char* barkod,node* next){
-    node* new_node = (node*)malloc(sizeof(node));
-    if(new_node == NULL)
-    {
-        printf("Error creating a new node.\n");
-        exit(0);
-    }
-    new_node->dan = dan;
-    new_node->mesec = mesec;
-    new_node->godina = godina;
-    new_node->cena = cena;
-    strcpy(new_node->barkod,barkod);
-    new_node->next = next;
-    return new_node;
-}
-
-node* append(node* head,int dan,int mesec,int godina,int cena,char* barkod){
-    if(head == NULL)
-        return NULL;
-
-    node *cursor = head;
-    while(cursor->next != NULL)
-        cursor = cursor->next;
-
-    node* new_node = create(dan,mesec,godina,cena,barkod,NULL);
-    cursor->next = new_node;
-
-    return head;
-}
-
-node* prepend(node* head,int dan,int mesec,int godina,int cena,char* barkod){
-    node* new_node = create(dan,mesec,godina,cena,barkod,head);
-    new_node->dan = dan;
-    new_node->mesec = mesec;
-    new_node->godina = godina;
-    new_node->cena = cena;
-    strcpy(new_node->barkod,barkod);
-    new_node->next = NULL;
-    head = new_node;
-    return head;
-}
-
-node* obrisi(node* head, char* barkod){
-    if(head==NULL)
-        return head;
-    node* cursor=head;
-    node* prev=head;
-    int i=0, j;
-    while(cursor!=NULL){
-        if(strcmp(cursor->barkod,barkod)==0)
-            break;
-        i++;
-        cursor=cursor->next;
-    }
-    for(j=0;j<i-1;j++){
-        prev=prev->next;
-    }
-    if(cursor==NULL)
-        return head;
-
-    if(cursor==head){
-        cursor=head;
-        head=head->next;
-        cursor->next=NULL;
-        free(cursor);
-        return head;
-    }else{
-    prev->next=cursor->next;
-    cursor->next=NULL;
-    free(cursor);
-    return head;
-    }
-
-}
-
-void dispose(node *head){
-
-    node *cursor, *tmp;
-    if(head != NULL)
-    {
-        cursor = head->next;
-        head->next = NULL;
-        while(cursor != NULL)
-        {
-            tmp = cursor->next;
-            free(cursor);
-            cursor = tmp;
-        }
-    }
-}
 
 
         ///Potrebno je napraviti program koji simulira rad programa za radnika u fast food restoranu. Kako bi program uspešno radio potrebno je imati sledeće funkcionalnosti.
@@ -127,15 +28,11 @@ int meni(){
     else
         err=1;
     scanf("%i", &odg);
-    }while(1 > odg || odg > 7);
+    }while(1 > odg || odg > 8);
     return odg;
 }
 
 void dodajartikal(){
-
-    FILE* upis;
-    upis=fopen("artikli.txt","a+");
-
     char naziv[50];
     char* barkod;
     barkod=(char*)malloc(sizeof(char)*13);
@@ -145,7 +42,6 @@ void dodajartikal(){
     scanf("%s", naziv);
 
     printf("barkod od 12 cifara: ");
-
     do{
     if(err==1)
         printf("Pokusajte ponovo\n");
@@ -167,6 +63,8 @@ void dodajartikal(){
         sastojci(barkod);
     }
 
+    FILE* upis;
+    upis=fopen("artikli.txt","a+");
     fprintf(upis,"%s\n%s\n%i\n\n", naziv, barkod, gotov);
     fclose(upis);
     free(barkod);
@@ -201,13 +99,6 @@ void sastojci(char* barkod){
         break;
     case 2:
         sastojci=fopen(barkod,"r");
-        if(sastojci==NULL){
-            fclose(sastojci);
-            printf("Fajl za ovaj barkod ne postoji, pravi se prazan fajl");
-            sastojci=fopen(barkod,"w+");
-            fclose(sastojci);
-            break;
-        }
         temp=fopen("temp","w");
         char print[50], neprint[50];
         scanf("%s",neprint);
@@ -240,13 +131,6 @@ void sastojci(char* barkod){
 void prikazi(){
     FILE* fp;
     fp=fopen("artikli.txt", "r");
-    if(fp==NULL){
-        printf("Greska u otvaranju, pravi se prazan fajl\n");
-        fclose(fp);
-        fp=fopen("artikli.txt", "w+");
-        fclose(fp);
-        return;
-    }
     char naziv[50], barkod[13];
     int tip;
     fscanf(fp,"%s %s %i", naziv, barkod, &tip);
@@ -267,11 +151,6 @@ void prikazi(){
 void prikazisastojke(char* barkod){
     FILE* ps;
     ps=fopen(barkod,"r");
-    if(ps==NULL){
-        printf("Za barkod %s ne postoji fajl sa sastojcima, kreira se prazan fajl\n", barkod);
-        fclose(ps);
-        ps=fopen(barkod,"w");
-    }
     char izlaz[50];
     fscanf(ps,"%s",izlaz);
     while(feof(ps)==0){
@@ -286,13 +165,6 @@ void obrisiartikal(char* barkod){
     FILE* f2;
     remove(barkod);
     f1=fopen("artikli.txt","r");
-    if(f1==NULL){
-        printf("Greska u otvaranju, pravi se prazan fajl\n");
-        fclose(f1);
-        f1=fopen("artikli.txt", "w+");
-        fclose(f1);
-        return;
-    }
     f2=fopen("temp","w");
     int i;
     char dobarkod[13], naziv[50], gotov;
@@ -313,35 +185,13 @@ void obrisiartikal(char* barkod){
 }
 
 void cenovnik(){
-    node* head = NULL;
-    node* cursor;
-    FILE* f;
+    FILE* cenovnik;
+    FILE* temp;
     char* barkod;
     barkod=(char*)malloc(sizeof(char)*13);
-    int dan, mesec, godina, cena;
+    char unos[50], datum[11], bar[13];
+    int dan=-1, mesec=-1, godina=-1;
     int i, odg, err;
-
-    f=fopen("cenovnik.txt","r");
-    if(f==NULL){
-        fclose(f);
-        f=fopen("cenovnik.txt","w");
-        fclose(f);
-        f=fopen("cenovnik.txt","r");
-    }
-
-    if(fgetc(f)!=EOF){
-        fclose(f);
-        f=fopen("cenovnik.txt","r");
-        fscanf(f,"%s %i %i %i %i", barkod, &dan, &mesec, &godina, &cena);
-        head=prepend(head,dan,mesec,godina,cena,barkod);
-
-        while(!feof(f)){
-            fscanf(f,"%s %i %i %i %i", barkod, &dan, &mesec, &godina, &cena);
-            head=append(head,dan,mesec,godina,cena,barkod);
-        }
-    }
-    fclose(f);
-
     while(1){
         odg=0;
         err=0;
@@ -358,6 +208,7 @@ void cenovnik(){
             }while(1 > odg || odg > 4);
         switch(odg){
     case 1:
+        cenovnik=fopen("cenovnik.txt","a+");
         printf("Barkod: ");
         scanf("%s", barkod);
         popravibarkod(barkod);
@@ -365,50 +216,59 @@ void cenovnik(){
         printf("Barkod ne postoji\n");
             break;
         }
+        fprintf(cenovnik,barkod);
+        fprintf(cenovnik,"\n");
 
         printf("Datum: ");
-        scanf("%i %i %i", &dan, &mesec, &godina);
+        scanf("%i/%i/%i", &dan, &mesec, &godina);
         while(dan>31 || mesec>12 || godina<2019){
         printf("Pogresan datum\n");
-        scanf("%i %i %i", &dan, &mesec, &godina);
+        scanf("%i/%i/%i", &dan, &mesec, &godina);
         }
+        fprintf(cenovnik,"%i/%i/%i\n", dan, mesec, godina);
 
         printf("Cena: ");
-        scanf("%i", &cena);
+        scanf("%s", unos);
+        fprintf(cenovnik,unos);
+        fprintf(cenovnik,"\n\n");
 
-        if(head==NULL){
-            head=prepend(head,dan,mesec,godina,cena,barkod);
-        }else{
-            head=append(head,dan,mesec,godina,cena,barkod);
-        }
+        fclose(cenovnik);
         break;
     case 2:
         printf("Barkod: ");
         scanf("%s", barkod);
         popravibarkod(barkod);
-        head=obrisi(head,barkod);
+        cenovnik=fopen("cenovnik.txt","r");
+        temp=fopen("temp","w");
+        fscanf(cenovnik,"%s %s %s", bar, datum, unos);
+        while(!feof(cenovnik)){
+                for(i=0;i<12;i++){
+                    if(barkod[i]!=bar[i]){
+                        fprintf(temp,"%s\n%s\n%s\n\n", bar, datum, unos);
+                        break;
+                    }
+                }
+                fscanf(cenovnik,"%s %s %s", bar, datum, unos);
+        }
+
+        fclose(cenovnik);
+        fclose(temp);
+        remove("cenovnik.txt");
+        rename("temp","cenovnik.txt");
         break;
     case 3:
-        cursor = head;
-            while(cursor != NULL){
-            printf("Barkod: %s\n", cursor->barkod);
-            printf("Datum: %i/%i/%i\n", cursor->dan, cursor->mesec, cursor->godina);
-            printf("Cena: %i\n\n", cursor->cena);
-            cursor=cursor->next;
-            }
+        cenovnik=fopen("cenovnik.txt", "r");
+        fscanf(cenovnik,"%s %s %s", barkod, datum, unos);
+        while(!feof(cenovnik)){
+        printf("Barkod: %s\n",barkod);
+        printf("Datum: %s\n",datum);
+        printf("Cena: %s\n\n",unos);
+        fscanf(cenovnik,"%s %s %s", barkod, datum, unos);
+        }
+        fclose(cenovnik);
         break;
     case 4:
         free(barkod);
-        f=fopen("cenovnik.txt","w");
-        cursor = head;
-            while(cursor != NULL){
-            fprintf(f,"\n\n%s\n", cursor->barkod);
-            fprintf(f,"%i\n%i\n%i\n", cursor->dan, cursor->mesec, cursor->godina);
-            fprintf(f,"%i",cursor->cena);
-            cursor=cursor->next;
-            }
-        fclose(f);
-        dispose(head);
         return;
         break;
         }
@@ -441,16 +301,10 @@ void izmeniartikal(char* barkod){
             }while(1 > odg || odg > 2);
         switch(odg){
         case 1:
-            f1=fopen("artikli.txt","r");
-            if(f1==NULL){
-                printf("Greska u otvaranju, pravi se prazan fajl\n");
-                fclose(f1);
-                f1=fopen("artikli.txt", "w+");
-                fclose(f1);
-                return;
-            }
+
             printf("Novi naziv: ");
             scanf("%s", novinaziv);
+            f1=fopen("artikli.txt","r");
             f2=fopen("temp","w");
             fscanf(f1,"%s %s %c", naziv, bar, &gotov);
 
@@ -475,31 +329,7 @@ void izmeniartikal(char* barkod){
             rename("temp","artikli.txt");
             break;
         case 2:
-            f1=fopen("artikli.txt","r");
-            if(f1==NULL){
-                printf("Greska u otvaranju, pravi se prazan fajl\n");
-                fclose(f1);
-                f1=fopen("artikli.txt", "w+");
-                fclose(f1);
-                return;
-            }
-
-            fscanf(f1,"%s %s %c", naziv, bar, &gotov);
-            while(!feof(f1)){
-            j=0;
-            for(i=0;i<12;i++){
-                if(barkod[i]==bar[i])
-                j++;
-            }
-                if(j==12){
-                    if(gotov=='0')
-                    sastojci(bar);
-                    else printf("Ovaj artikal nema sastojke\n");
-                }
-            fscanf(f1,"%s %s %c", naziv, bar, &gotov);
-            }
-
-            fclose(f1);
+            sastojci(barkod);
             break;
         }
 }
@@ -509,11 +339,6 @@ FILE* b;
 int i, j, tip;
 char naziv[50], bar[13];
 b=fopen("artikli.txt","r");
-if(b==NULL){
-        printf("Greska u otvaranju, pravi se prazan fajl\n");
-        fclose(b);
-        b=fopen("artikli.txt", "w+");
-    }
 fscanf(b,"%s %s %i", naziv, bar, &tip);
 while(!feof(b)){
         j=0;
@@ -535,13 +360,6 @@ void nadjiartikal(){
 int odg=0, err=0;
         FILE* f1;
         f1=fopen("artikli.txt","r");
-        if(f1==NULL){
-            printf("Greska u otvaranju, pravi se prazan fajl\n");
-            fclose(f1);
-            f1=fopen("artikli.txt", "w+");
-            fclose(f1);
-            return;
-        }
         int i, j, gotov, no=1;
         char bar[13], naziv[50], unos[50];
         char* barkod;
